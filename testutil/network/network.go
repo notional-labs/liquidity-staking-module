@@ -176,9 +176,7 @@ type Logger interface {
 	Logf(format string, args ...interface{})
 }
 
-var (
-	_ Logger = (*CLILogger)(nil)
-)
+var _ Logger = (*CLILogger)(nil)
 
 // CLILogger wraps a cobra.Command and provides command logging methods.
 type CLILogger struct {
