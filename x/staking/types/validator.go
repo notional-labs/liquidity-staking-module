@@ -17,6 +17,7 @@ import (
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"github.com/cosmos/cosmos-sdk/x/staking/types"
 	sdkstaking "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
@@ -166,7 +167,7 @@ func UnmarshalValidator(cdc codec.BinaryCodec, value []byte) (v Validator, err e
 
 // IsBonded checks if the validator status equals Bonded
 func (v Validator) IsBonded() bool {
-	return v.GetStatus() == sdkstaking.Bonded
+	return v.GetStatus() == types.Bonded
 }
 
 // IsUnbonded checks if the validator status equals Unbonded
@@ -454,9 +455,9 @@ func (v *Validator) Equal(v2 *Validator) bool {
 		v.UnbondingTime.Equal(v2.UnbondingTime)
 }
 
-func (v Validator) IsJailed() bool                   { return v.Jailed }
-func (v Validator) GetMoniker() string               { return v.Description.Moniker }
-func (v Validator) GetStatus() sdkstaking.BondStatus { return v.Status }
+func (v Validator) IsJailed() bool              { return v.Jailed }
+func (v Validator) GetMoniker() string          { return v.Description.Moniker }
+func (v Validator) GetStatus() types.BondStatus { return v.Status }
 func (v Validator) GetOperator() sdk.ValAddress {
 	if v.OperatorAddress == "" {
 		return nil

@@ -177,16 +177,16 @@ func TestUpdateStatus(t *testing.T) {
 	require.Equal(t, int64(100), validator.Tokens.Int64())
 
 	// Unbonded to Bonded
-	validator = validator.UpdateStatus(sdkstaking.Bonded)
-	require.Equal(t, sdkstaking.Bonded, validator.Status)
+	validator = validator.UpdateStatus(sdkstaking.Unbonding)
+	require.Equal(t, types.Bonded, validator.Status)
 
 	// Bonded to Unbonding
 	validator = validator.UpdateStatus(sdkstaking.Unbonding)
 	require.Equal(t, sdkstaking.Unbonding, validator.Status)
 
 	// Unbonding to Bonded
-	validator = validator.UpdateStatus(sdkstaking.Bonded)
-	require.Equal(t, sdkstaking.Bonded, validator.Status)
+	validator = validator.UpdateStatus(sdkstaking.Unbonding)
+	require.Equal(t, types.Bonded, validator.Status)
 }
 
 func TestPossibleOverflow(t *testing.T) {

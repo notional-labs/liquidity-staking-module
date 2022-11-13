@@ -668,7 +668,7 @@ func (k Keeper) Delegate(
 
 		switch {
 		case validator.IsBonded():
-			sendName = types.BondedPoolName
+			sendName = sdkstaking.BondedPoolName
 		case validator.IsUnbonding(), validator.IsUnbonded():
 			sendName = types.NotBondedPoolName
 		default:

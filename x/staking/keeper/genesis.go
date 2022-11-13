@@ -103,7 +103,7 @@ func (k Keeper) InitGenesis(ctx sdk.Context, data *types.GenesisState) (res []ab
 	// check if the unbonded and bonded pools accounts exists
 	bondedPool := k.GetBondedPool(ctx)
 	if bondedPool == nil {
-		panic(fmt.Sprintf("%s module account has not been set", types.BondedPoolName))
+		panic(fmt.Sprintf("%s module account has not been set", sdkstaking.BondedPoolName))
 	}
 
 	// TODO: remove with genesis 2-phases refactor https://github.com/cosmos/cosmos-sdk/issues/2862

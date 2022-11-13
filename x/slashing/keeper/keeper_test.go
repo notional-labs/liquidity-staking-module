@@ -13,6 +13,7 @@ import (
 	"github.com/iqlusioninc/liquidity-staking-module/x/slashing/testslashing"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/teststaking"
+	"github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 )
 
 // Test a new validator entering the validator set
@@ -53,7 +54,7 @@ func TestHandleNewValidator(t *testing.T) {
 
 	// validator should be bonded still, should not have been jailed or slashed
 	validator, _ := app.StakingKeeper.GetValidatorByConsAddr(ctx, sdk.GetConsAddress(val))
-	require.Equal(t, sdkstaking.Bonded, validator.GetStatus())
+	require.Equal(t, types.Bonded, validator.GetStatus())
 	bondPool := app.StakingKeeper.GetBondedPool(ctx)
 	expTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 100)
 	// adding genesis validator tokens

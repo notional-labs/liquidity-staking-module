@@ -91,7 +91,7 @@ func TestSetValidator(t *testing.T) {
 	require.Equal(t, validator.ABCIValidatorUpdate(app.StakingKeeper.PowerReduction(ctx)), updates[0])
 
 	// after the save the validator should be bonded
-	require.Equal(t, sdkstaking.Bonded, validator.Status)
+	require.Equal(t, types.Bonded, validator.Status)
 	assert.Equal(t, valTokens, validator.Tokens)
 	assert.Equal(t, valTokens, validator.DelegatorShares.RoundInt())
 
@@ -295,7 +295,7 @@ func TestValidatorBasics(t *testing.T) {
 	resVals = app.StakingKeeper.GetLastValidators(ctx)
 	require.Equal(t, 1, len(resVals))
 	assert.True(ValEq(t, validators[0], resVals[0]))
-	assert.Equal(t, sdkstaking.Bonded, validators[0].Status)
+	assert.Equal(t, types.Bonded, validators[0].Status)
 	assert.True(sdk.IntEq(t, app.StakingKeeper.TokensFromConsensusPower(ctx, 9), validators[0].BondedTokens()))
 
 	// modify a records, save, and retrieve
@@ -472,11 +472,11 @@ func TestGetValidatorSortingMixed(t *testing.T) {
 	require.True(t, found)
 	val4, found := app.StakingKeeper.GetLiquidValidator(ctx, sdk.ValAddress(addrs[4]))
 	require.True(t, found)
-	require.Equal(t, sdkstaking.Bonded, val0.Status)
+	require.Equal(t, types.Bonded, val0.Status)
 	require.Equal(t, sdkstaking.Unbonding, val1.Status)
 	require.Equal(t, sdkstaking.Unbonding, val2.Status)
-	require.Equal(t, sdkstaking.Bonded, val3.Status)
-	require.Equal(t, sdkstaking.Bonded, val4.Status)
+	require.Equal(t, types.Bonded, val3.Status)
+	require.Equal(t, types.Bonded, val4.Status)
 
 	// first make sure everything made it in to the gotValidator group
 	resValidators := app.StakingKeeper.GetLiquidBondedValidatorsByPower(ctx)
@@ -671,8 +671,8 @@ func TestFullValidatorSetPowerChange(t *testing.T) {
 	}
 	assert.Equal(t, sdkstaking.Unbonded, validators[0].Status)
 	assert.Equal(t, sdkstaking.Unbonding, validators[1].Status)
-	assert.Equal(t, sdkstaking.Bonded, validators[2].Status)
-	assert.Equal(t, sdkstaking.Bonded, validators[3].Status)
+	assert.Equal(t, types.Bonded, validators[2].Status)
+	assert.Equal(t, types.Bonded, validators[3].Status)
 	assert.Equal(t, sdkstaking.Unbonded, validators[4].Status)
 	resValidators := app.StakingKeeper.GetLiquidBondedValidatorsByPower(ctx)
 	assert.Equal(t, max, len(resValidators))

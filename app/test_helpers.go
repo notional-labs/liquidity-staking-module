@@ -34,7 +34,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
-	stdstaking "github.com/cosmos/cosmos-sdk/x/staking/types"
+	sdkstaking "github.com/cosmos/cosmos-sdk/x/staking/types"
 	stakingtypes "github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 )
 
@@ -167,7 +167,7 @@ func genesisStateWithValSet(t *testing.T,
 			OperatorAddress: sdk.ValAddress(val.Address).String(),
 			ConsensusPubkey: pkAny,
 			Jailed:          false,
-			Status:          stdstaking.Bonded,
+			Status:          sdkstaking.Bonded,
 			Tokens:          bondAmt,
 			DelegatorShares: sdk.OneDec(),
 			Description:     stakingtypes.Description{},
