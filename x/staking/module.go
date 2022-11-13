@@ -142,6 +142,7 @@ func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
 	querier := keeper.Querier{Keeper: am.keeper}
 	types.RegisterQueryServer(cfg.QueryServer(), querier)
+	types.RegisterSDKQueryServer(cfg.QueryServer(), querier)
 }
 
 // InitGenesis performs genesis initialization for the staking module. It returns
