@@ -9,7 +9,7 @@ import (
 )
 
 func RegisterSDKQueryServer(s grpc1.Server, srv QueryServer) {
-	s.RegisterService(&_Query_serviceDesc, srv)
+	s.RegisterService(&_SDK_Query_serviceDesc, srv)
 }
 
 func _SDK_Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
