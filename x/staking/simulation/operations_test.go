@@ -51,7 +51,7 @@ package simulation_test
 // 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash}})
 
 // 	// execute operation
-// 	op := simulation.SimulateMsgCreateValidator(app.AccountKeeper, app.BankKeeper, app.StakingKeeper)
+// 	op := simulation.SimulateMsgCreateValidator(app.AccountKeeper, app.BankKeeper, *app.StakingKeeper)
 // 	operationMsg, futureOperations, err := op(r, app.BaseApp, ctx, accounts, "")
 // 	require.NoError(t, err)
 
@@ -88,7 +88,7 @@ package simulation_test
 // 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash, Time: blockTime}})
 
 // 	// execute operation
-// 	op := simulation.SimulateMsgEditValidator(app.AccountKeeper, app.BankKeeper, app.StakingKeeper)
+// 	op := simulation.SimulateMsgEditValidator(app.AccountKeeper, app.BankKeeper, *app.StakingKeeper)
 // 	operationMsg, futureOperations, err := op(r, app.BaseApp, ctx, accounts, "")
 // 	require.NoError(t, err)
 
@@ -117,7 +117,7 @@ package simulation_test
 // 	ctx = ctx.WithBlockTime(blockTime)
 
 // 	// execute operation
-// 	op := simulation.SimulateMsgDelegate(app.AccountKeeper, app.BankKeeper, app.StakingKeeper)
+// 	op := simulation.SimulateMsgDelegate(app.AccountKeeper, app.BankKeeper, *app.StakingKeeper)
 // 	operationMsg, futureOperations, err := op(r, app.BaseApp, ctx, accounts, "")
 // 	require.NoError(t, err)
 
@@ -163,7 +163,7 @@ package simulation_test
 // 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash, Time: blockTime}})
 
 // 	// execute operation
-// 	op := simulation.SimulateMsgUndelegate(app.AccountKeeper, app.BankKeeper, app.StakingKeeper)
+// 	op := simulation.SimulateMsgUndelegate(app.AccountKeeper, app.BankKeeper, *app.StakingKeeper)
 // 	operationMsg, futureOperations, err := op(r, app.BaseApp, ctx, accounts, "")
 // 	require.NoError(t, err)
 
@@ -212,7 +212,7 @@ package simulation_test
 // 	app.BeginBlock(abci.RequestBeginBlock{Header: tmproto.Header{Height: app.LastBlockHeight() + 1, AppHash: app.LastCommitID().Hash, Time: blockTime}})
 
 // 	// execute operation
-// 	op := simulation.SimulateMsgBeginRedelegate(app.AccountKeeper, app.BankKeeper, app.StakingKeeper)
+// 	op := simulation.SimulateMsgBeginRedelegate(app.AccountKeeper, app.BankKeeper, *app.StakingKeeper)
 // 	operationMsg, futureOperations, err := op(r, app.BaseApp, ctx, accounts, "")
 // 	require.NoError(t, err)
 

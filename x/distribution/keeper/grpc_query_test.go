@@ -345,11 +345,11 @@ func (suite *KeeperTestSuite) TestGRPCValidatorSlashes() {
 func (suite *KeeperTestSuite) TestGRPCDelegationRewards() {
 	app, ctx, addrs, valAddrs := suite.app, suite.ctx, suite.addrs, suite.valAddrs
 
-	tstaking := teststaking.NewHelper(suite.T(), ctx, app.StakingKeeper)
+	tstaking := teststaking.NewHelper(suite.T(), ctx, *app.StakingKeeper)
 	tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDecWithPrec(5, 1), sdk.NewDecWithPrec(5, 1), sdk.NewDec(0))
 	tstaking.CreateValidator(valAddrs[0], valConsPk1, sdk.NewInt(100), true)
 
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
 
 	queryHelper := baseapp.NewQueryServerTestHelper(ctx, app.InterfaceRegistry())
@@ -663,7 +663,7 @@ func (suite *KeeperTestSuite) TestGRPCTokenizeShareRecordReward() {
 
 	addr := simapp.AddTestAddrs(app, ctx, 2, sdk.NewInt(100000000))
 	valAddrs := simapp.ConvertAddrsToValAddrs(addr)
-	tstaking := teststaking.NewHelper(suite.T(), ctx, app.StakingKeeper)
+	tstaking := teststaking.NewHelper(suite.T(), ctx, *app.StakingKeeper)
 
 	// create validator with 50% commission
 	tstaking.Commission = stakingtypes.NewCommissionRates(sdk.NewDecWithPrec(5, 1), sdk.NewDecWithPrec(5, 1), sdk.NewDec(0))
@@ -671,7 +671,7 @@ func (suite *KeeperTestSuite) TestGRPCTokenizeShareRecordReward() {
 	tstaking.CreateValidatorWithValPower(valAddrs[0], valConsPk1, valPower, true)
 
 	// end block to bond validator
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 
 	// next block
 	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
@@ -707,7 +707,7 @@ func (suite *KeeperTestSuite) TestGRPCTokenizeShareRecordReward() {
 
 	// tokenize share amount
 	delTokens := sdk.NewInt(1000000)
-	msgServer := stakingkeeper.NewMsgServerImpl(app.StakingKeeper)
+	msgServer := stakingkeeper.NewMsgServerImpl(*app.StakingKeeper)
 	_, err = msgServer.TokenizeShares(sdk.WrapSDKContext(ctx), &stakingtypes.MsgTokenizeShares{
 		DelegatorAddress:    sdk.AccAddress(valAddrs[0]).String(),
 		ValidatorAddress:    valAddrs[0].String(),
@@ -716,7 +716,7 @@ func (suite *KeeperTestSuite) TestGRPCTokenizeShareRecordReward() {
 	})
 	suite.Require().NoError(err)
 
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
 	app.DistrKeeper.AllocateTokensToValidator(ctx, val, tokens)
 	app.DistrKeeper.IncrementValidatorPeriod(ctx, val)

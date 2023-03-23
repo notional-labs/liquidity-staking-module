@@ -87,7 +87,7 @@ func TestInitGenesis(t *testing.T) {
 	require.EqualValues(t, app.StakingKeeper.GetAllValidators(ctx), actualGenesis.Validators)
 
 	// Ensure validators have addresses.
-	vals2, err := staking.WriteValidators(ctx, app.StakingKeeper)
+	vals2, err := staking.WriteValidators(ctx, *app.StakingKeeper)
 	require.NoError(t, err)
 
 	for _, val := range vals2 {

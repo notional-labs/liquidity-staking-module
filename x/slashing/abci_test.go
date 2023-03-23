@@ -23,12 +23,12 @@ func TestBeginBlocker(t *testing.T) {
 	pks := simapp.CreateTestPubKeys(1)
 	simapp.AddTestAddrsFromPubKeys(app, ctx, pks, app.StakingKeeper.TokensFromConsensusPower(ctx, 200))
 	addr, pk := sdk.ValAddress(pks[0].Address()), pks[0]
-	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+	tstaking := teststaking.NewHelper(t, ctx, *app.StakingKeeper)
 
 	// bond the validator
 	power := int64(100)
 	amt := tstaking.CreateValidatorWithValPower(addr, pk, power, true)
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 	require.Equal(
 		t, app.BankKeeper.GetAllBalances(ctx, sdk.AccAddress(addr)),
 		sdk.NewCoins(sdk.NewCoin(app.StakingKeeper.GetParams(ctx).BondDenom, InitTokens.Sub(amt))),
@@ -92,7 +92,7 @@ func TestBeginBlocker(t *testing.T) {
 	}
 
 	// end block
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 
 	// validator should be jailed
 	validator, found := app.StakingKeeper.GetValidatorByConsAddr(ctx, sdk.GetConsAddress(pk))

@@ -41,9 +41,9 @@ func TestDelegation(t *testing.T) {
 		validators[i], _ = validators[i].AddTokensFromDel(amt)
 	}
 
-	validators[0] = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validators[0], true)
-	validators[1] = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validators[1], true)
-	validators[2] = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validators[2], true)
+	validators[0] = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validators[0], true)
+	validators[1] = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validators[1], true)
+	validators[2] = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validators[2], true)
 
 	// first add a validators[0] to delegate too
 	bond1to1 := types.NewDelegation(addrDels[0], valAddrs[0], sdk.NewDec(9), false)
@@ -211,7 +211,7 @@ func TestUnbondDelegation(t *testing.T) {
 	validator, issuedShares := validator.AddTokensFromDel(startTokens)
 	require.Equal(t, startTokens, issuedShares.RoundInt())
 
-	_ = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator, true)
+	_ = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validator, true)
 
 	delegation := types.NewDelegation(delAddrs[0], valAddrs[0], issuedShares, false)
 	app.StakingKeeper.SetDelegation(ctx, delegation)
@@ -251,7 +251,7 @@ func TestUnbondingDelegationsMaxEntries(t *testing.T) {
 	validator, issuedShares := validator.AddTokensFromDel(startTokens)
 	require.Equal(t, startTokens, issuedShares.RoundInt())
 
-	validator = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator, true)
+	validator = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validator, true)
 	require.True(math.IntEq(t, startTokens, validator.BondedTokens()))
 	require.True(t, validator.IsBonded())
 
@@ -420,7 +420,7 @@ func TestRedelegateToSameValidator(t *testing.T) {
 	validator := teststaking.NewValidator(t, addrVals[0], PKs[0])
 	validator, issuedShares := validator.AddTokensFromDel(valTokens)
 	require.Equal(t, valTokens, issuedShares.RoundInt())
-	validator = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator, true)
+	validator = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validator, true)
 	require.True(t, validator.IsBonded())
 
 	val0AccAddr := sdk.AccAddress(addrVals[0].Bytes())
@@ -450,7 +450,7 @@ func TestRedelegationMaxEntries(t *testing.T) {
 	valTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 10)
 	validator, issuedShares := validator.AddTokensFromDel(valTokens)
 	require.Equal(t, valTokens, issuedShares.RoundInt())
-	_ = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator, true)
+	_ = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validator, true)
 	val0AccAddr := sdk.AccAddress(addrVals[0].Bytes())
 	selfDelegation := types.NewDelegation(val0AccAddr, addrVals[0], issuedShares, false)
 	app.StakingKeeper.SetDelegation(ctx, selfDelegation)
@@ -460,7 +460,7 @@ func TestRedelegationMaxEntries(t *testing.T) {
 	validator2, issuedShares = validator2.AddTokensFromDel(valTokens)
 	require.Equal(t, valTokens, issuedShares.RoundInt())
 
-	validator2 = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator2, true)
+	validator2 = keeper.TestingUpdateValidator(*app.StakingKeeper), ctx, validator2, true)
 	require.Equal(t, sdkstaking.Bonded, validator2.Status)
 
 	maxEntries := app.StakingKeeper.MaxEntries(ctx)
@@ -511,7 +511,7 @@ func TestExemptDelegationUndelegate(t *testing.T) {
 	app.StakingKeeper.SetParams(ctx, params)
 
 	// convert to exempt delegation
-	msgServer := keeper.NewMsgServerImpl(app.StakingKeeper)
+	msgServer := keeper.NewMsgServerImpl(*app.StakingKeeper)
 
 	validator, _ = app.StakingKeeper.GetLiquidValidator(ctx, addrVals[0])
 	err := delegateCoinsFromAccount(ctx, app, addrDels[0], startTokens, validator)
@@ -590,7 +590,7 @@ func TestExemptDelegationRedelegate(t *testing.T) {
 	app.StakingKeeper.SetParams(ctx, params)
 
 	// convert to exempt delegation
-	msgServer := keeper.NewMsgServerImpl(app.StakingKeeper)
+	msgServer := keeper.NewMsgServerImpl(*app.StakingKeeper)
 
 	validator, _ = app.StakingKeeper.GetLiquidValidator(ctx, addrVals[0])
 	err := delegateCoinsFromAccount(ctx, app, addrDels[0], startTokens, validator)

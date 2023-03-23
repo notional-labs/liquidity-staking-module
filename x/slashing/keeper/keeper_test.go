@@ -26,13 +26,13 @@ func TestHandleNewValidator(t *testing.T) {
 	valAddrs := simapp.ConvertAddrsToValAddrs(addrDels)
 	pks := simapp.CreateTestPubKeys(1)
 	addr, val := valAddrs[0], pks[0]
-	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+	tstaking := teststaking.NewHelper(t, ctx, *app.StakingKeeper)
 	ctx = ctx.WithBlockHeight(app.SlashingKeeper.SignedBlocksWindow(ctx) + 1)
 
 	// Validator created
 	amt := tstaking.CreateValidatorWithValPower(addr, val, 100, true)
 
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 	require.Equal(
 		t, app.BankKeeper.GetAllBalances(ctx, sdk.AccAddress(addr)),
 		sdk.NewCoins(sdk.NewCoin(app.StakingKeeper.GetParams(ctx).BondDenom, InitTokens.Sub(amt))),
@@ -73,11 +73,11 @@ func TestHandleAlreadyJailed(t *testing.T) {
 	pks := simapp.CreateTestPubKeys(1)
 	addr, val := valAddrs[0], pks[0]
 	power := int64(100)
-	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+	tstaking := teststaking.NewHelper(t, ctx, *app.StakingKeeper)
 
 	amt := tstaking.CreateValidatorWithValPower(addr, val, power, true)
 
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 
 	// 1000 first blocks OK
 	height := int64(0)
@@ -93,7 +93,7 @@ func TestHandleAlreadyJailed(t *testing.T) {
 	}
 
 	// end block
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 
 	// validator should have been jailed and slashed
 	validator, _ := app.StakingKeeper.GetValidatorByConsAddr(ctx, sdk.GetConsAddress(val))
@@ -132,11 +132,11 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 
 	addr, val := pks[0].Address(), pks[0]
 	consAddr := sdk.ConsAddress(addr)
-	tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+	tstaking := teststaking.NewHelper(t, ctx, *app.StakingKeeper)
 	valAddr := sdk.ValAddress(addr)
 
 	tstaking.CreateValidatorWithValPower(valAddr, val, power, true)
-	validatorUpdates := staking.EndBlocker(ctx, app.StakingKeeper)
+	validatorUpdates := staking.EndBlocker(ctx, *app.StakingKeeper)
 	require.Equal(t, 2, len(validatorUpdates))
 	tstaking.CheckValidator(valAddr, sdkstaking.Bonded, false)
 
@@ -149,7 +149,7 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 
 	// kick first validator out of validator set
 	tstaking.CreateValidatorWithValPower(sdk.ValAddress(pks[1].Address()), pks[1], power+1, true)
-	validatorUpdates = staking.EndBlocker(ctx, app.StakingKeeper)
+	validatorUpdates = staking.EndBlocker(ctx, *app.StakingKeeper)
 	require.Equal(t, 2, len(validatorUpdates))
 	tstaking.CheckValidator(sdk.ValAddress(pks[1].Address()), sdkstaking.Bonded, false)
 	tstaking.CheckValidator(valAddr, sdkstaking.Unbonding, false)
@@ -161,7 +161,7 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 	// validator added back in
 	tstaking.DelegateWithPower(sdk.AccAddress(pks[2].Address()), valAddr, 50)
 
-	validatorUpdates = staking.EndBlocker(ctx, app.StakingKeeper)
+	validatorUpdates = staking.EndBlocker(ctx, *app.StakingKeeper)
 	require.Equal(t, 2, len(validatorUpdates))
 	tstaking.CheckValidator(valAddr, sdkstaking.Bonded, false)
 	newPower := power + 50
@@ -181,7 +181,7 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 	}
 
 	// should now be jailed & kicked
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 	tstaking.CheckValidator(valAddr, sdkstaking.Unbonding, true)
 
 	// check all the signing information
@@ -201,7 +201,7 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 	app.SlashingKeeper.HandleValidatorSignature(ctx, val.Address(), newPower, true)
 
 	// validator should not be kicked since we reset counter/array when it was jailed
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 	tstaking.CheckValidator(valAddr, sdkstaking.Bonded, false)
 
 	// check start height is correctly set
@@ -217,6 +217,6 @@ func TestValidatorDippingInAndOut(t *testing.T) {
 	}
 
 	// validator should now be jailed & kicked
-	staking.EndBlocker(ctx, app.StakingKeeper)
+	staking.EndBlocker(ctx, *app.StakingKeeper)
 	tstaking.CheckValidator(valAddr, sdkstaking.Unbonding, true)
 }

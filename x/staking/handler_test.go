@@ -87,7 +87,7 @@ func TestTokenizeShares(t *testing.T) {
 			app, ctx, delAddrs, valAddrs := bootstrapHandlerGenesisTest(t, initPower, 3, sdk.TokensFromConsensusPower(initPower, sdk.DefaultPowerReduction))
 			val1 := valAddrs[0]
 			del2 := delAddrs[1]
-			tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+			tstaking := teststaking.NewHelper(t, ctx, *app.StakingKeeper)
 
 			// set staking params
 			params := app.StakingKeeper.GetParams(ctx)
@@ -154,7 +154,7 @@ func TestRedeemTokensforShares(t *testing.T) {
 			app, ctx, delAddrs, valAddrs := bootstrapHandlerGenesisTest(t, initPower, 3, sdk.TokensFromConsensusPower(initPower, sdk.DefaultPowerReduction))
 			val1 := valAddrs[0]
 			del2 := delAddrs[1]
-			tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+			tstaking := teststaking.NewHelper(t, ctx, *app.StakingKeeper)
 
 			// set staking params
 			params := app.StakingKeeper.GetParams(ctx)
@@ -218,7 +218,7 @@ func TransferTokenizeShareRecord(t *testing.T) {
 			app, ctx, delAddrs, valAddrs := bootstrapHandlerGenesisTest(t, initPower, 3, sdk.TokensFromConsensusPower(initPower, sdk.DefaultPowerReduction))
 			val1 := valAddrs[0]
 			del2 := delAddrs[1]
-			tstaking := teststaking.NewHelper(t, ctx, app.StakingKeeper)
+			tstaking := teststaking.NewHelper(t, ctx, *app.StakingKeeper)
 
 			// set staking params
 			params := app.StakingKeeper.GetParams(ctx)

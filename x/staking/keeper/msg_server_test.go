@@ -234,7 +234,7 @@ func TestTokenizeSharesAndRedeemTokens(t *testing.T) {
 			oldValidator, found := app.StakingKeeper.GetLiquidValidator(ctx, addrVal1)
 			require.True(t, found)
 
-			msgServer := keeper.NewMsgServerImpl(app.StakingKeeper)
+			msgServer := keeper.NewMsgServerImpl(*app.StakingKeeper)
 			if tc.exemptDelegate {
 				err := delegateCoinsFromAccount(ctx, app, addrs[tc.exemptDelegatorIndex], delTokens, val1)
 				require.NoError(t, err)
@@ -392,7 +392,7 @@ func TestTransferTokenizeShareRecord(t *testing.T) {
 	// apply TM updates
 	applyValidatorSetUpdates(t, ctx, app.StakingKeeper, -1)
 
-	msgServer := keeper.NewMsgServerImpl(app.StakingKeeper)
+	msgServer := keeper.NewMsgServerImpl(*app.StakingKeeper)
 
 	err := app.StakingKeeper.AddTokenizeShareRecord(ctx, types.TokenizeShareRecord{
 		Id:            1,
@@ -472,7 +472,7 @@ func TestExemptDelegation(t *testing.T) {
 				require.NoError(t, err)
 			}
 
-			msgServer := keeper.NewMsgServerImpl(app.StakingKeeper)
+			msgServer := keeper.NewMsgServerImpl(*app.StakingKeeper)
 			_, err = msgServer.ExemptDelegation(sdk.WrapSDKContext(ctx), &types.MsgExemptDelegation{
 				DelegatorAddress: addrAcc1.String(),
 				ValidatorAddress: addrVal1.String(),
@@ -514,7 +514,7 @@ func TestUnbondValidator(t *testing.T) {
 	require.NoError(t, err)
 
 	// try unbonding not available validator
-	msgServer := keeper.NewMsgServerImpl(app.StakingKeeper)
+	msgServer := keeper.NewMsgServerImpl(*app.StakingKeeper)
 	_, err = msgServer.UnbondValidator(sdk.WrapSDKContext(ctx), &types.MsgUnbondValidator{
 		ValidatorAddress: sdk.ValAddress(addrs[1]).String(),
 	})
