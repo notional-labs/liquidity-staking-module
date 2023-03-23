@@ -7,6 +7,7 @@ import (
 
 	"cosmossdk.io/math"
 	tmtypes "github.com/cometbft/cometbft/types"
+	stakingtypes "github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -93,7 +94,7 @@ func TestRemoveTokens(t *testing.T) {
 	require.Equal(t, int64(90), validator.Tokens.Int64())
 
 	// update validator to from bonded -> unbonded
-	validator = validator.UpdateStatus(sdkstaking.Unbonded)
+	validator = validator.UpdateStatus(stakingtypes.Unbonded)
 	require.Equal(t, sdkstaking.Unbonded, validator.Status)
 
 	validator = validator.RemoveTokens(sdk.NewInt(10))
@@ -103,7 +104,7 @@ func TestRemoveTokens(t *testing.T) {
 
 func TestAddTokensValidatorBonded(t *testing.T) {
 	validator := newValidator(t, valAddr1, pk1)
-	validator = validator.UpdateStatus(sdkstaking.Bonded)
+	validator = validator.UpdateStatus(stakingtypes.Bonded)
 	validator, delShares := validator.AddTokensFromDel(sdk.NewInt(10))
 
 	assert.True(sdk.DecEq(t, sdk.NewDec(10), delShares))
@@ -113,7 +114,7 @@ func TestAddTokensValidatorBonded(t *testing.T) {
 
 func TestAddTokensValidatorUnbonding(t *testing.T) {
 	validator := newValidator(t, valAddr1, pk1)
-	validator = validator.UpdateStatus(sdkstaking.Unbonding)
+	validator = validator.UpdateStatus(stakingtypes.Unbonding)
 	validator, delShares := validator.AddTokensFromDel(sdk.NewInt(10))
 
 	assert.True(sdk.DecEq(t, sdk.NewDec(10), delShares))
@@ -124,7 +125,7 @@ func TestAddTokensValidatorUnbonding(t *testing.T) {
 
 func TestAddTokensValidatorUnbonded(t *testing.T) {
 	validator := newValidator(t, valAddr1, pk1)
-	validator = validator.UpdateStatus(sdkstaking.Unbonded)
+	validator = validator.UpdateStatus(stakingtypes.Unbonded)
 	validator, delShares := validator.AddTokensFromDel(sdk.NewInt(10))
 
 	assert.True(sdk.DecEq(t, sdk.NewDec(10), delShares))
@@ -138,7 +139,7 @@ func TestRemoveDelShares(t *testing.T) {
 	valA := types.Validator{
 		OperatorAddress: valAddr1.String(),
 		ConsensusPubkey: pk1Any,
-		Status:          sdkstaking.Bonded,
+		Status:          stakingtypes.Bonded,
 		Tokens:          sdk.NewInt(100),
 		DelegatorShares: sdk.NewDec(100),
 	}
@@ -177,15 +178,15 @@ func TestUpdateStatus(t *testing.T) {
 	require.Equal(t, int64(100), validator.Tokens.Int64())
 
 	// Unbonded to Bonded
-	validator = validator.UpdateStatus(sdkstaking.Bonded)
+	validator = validator.UpdateStatus(stakingtypes.Bonded)
 	require.Equal(t, sdkstaking.Bonded, validator.Status)
 
 	// Bonded to Unbonding
-	validator = validator.UpdateStatus(sdkstaking.Unbonding)
+	validator = validator.UpdateStatus(stakingtypes.Unbonding)
 	require.Equal(t, sdkstaking.Unbonding, validator.Status)
 
 	// Unbonding to Bonded
-	validator = validator.UpdateStatus(sdkstaking.Bonded)
+	validator = validator.UpdateStatus(stakingtypes.Bonded)
 	require.Equal(t, sdkstaking.Bonded, validator.Status)
 }
 
@@ -278,7 +279,7 @@ func TestValidatorsSortTendermint(t *testing.T) {
 		pk := ed25519.GenPrivKey().PubKey()
 		pk2 := ed25519.GenPrivKey().PubKey()
 		vals[i] = newValidator(t, sdk.ValAddress(pk2.Address()), pk)
-		vals[i].Status = sdkstaking.Bonded
+		vals[i].Status = stakingtypes.Bonded
 		vals[i].Tokens = sdk.NewInt(rand.Int63())
 	}
 	// create some validators with the same power
@@ -310,7 +311,7 @@ func TestValidatorToTm(t *testing.T) {
 	for i := range vals {
 		pk := ed25519.GenPrivKey().PubKey()
 		val := newValidator(t, sdk.ValAddress(pk.Address()), pk)
-		val.Status = sdkstaking.Bonded
+		val.Status = stakingtypes.Bonded
 		val.Tokens = sdk.NewInt(rand.Int63())
 		vals[i] = val
 		tmPk, err := cryptocodec.ToTmPubKeyInterface(pk)
@@ -337,7 +338,7 @@ func mkValidator(tokens int64, shares sdk.Dec) types.Validator {
 	return types.Validator{
 		OperatorAddress: valAddr1.String(),
 		ConsensusPubkey: pk1Any,
-		Status:          sdkstaking.Bonded,
+		Status:          stakingtypes.Bonded,
 		Tokens:          sdk.NewInt(tokens),
 		DelegatorShares: shares,
 	}

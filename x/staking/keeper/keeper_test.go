@@ -29,7 +29,7 @@ func (suite *KeeperTestSuite) SetupTest() {
 	app := simapp.Setup(suite.T(), false)
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-	querier := keeper.Querier{Keeper: app.StakingKeeper}
+	querier := keeper.Querier{Keeper: *app.StakingKeeper}
 
 	queryHelper := baseapp.NewQueryServerTestHelper(ctx, app.InterfaceRegistry())
 	types.RegisterQueryServer(queryHelper, querier)

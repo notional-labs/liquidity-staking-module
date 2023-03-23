@@ -9,8 +9,8 @@ import (
 	gogotypes "github.com/gogo/protobuf/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkstaking "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
+	stakingtypes "github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 )
 
 // BlockValidatorUpdates calculates the ValidatorUpdates for the current block
@@ -284,7 +284,7 @@ func (k Keeper) bondValidator(ctx sdk.Context, validator types.Validator) (types
 	// delete the validator by power index, as the key will change
 	k.DeleteValidatorByPowerIndex(ctx, validator)
 
-	validator = validator.UpdateStatus(sdkstaking.Bonded)
+	validator = validator.UpdateStatus(stakingtypes.Bonded)
 
 	// save the now bonded validator record to the two referenced stores
 	k.SetValidator(ctx, validator)
@@ -314,11 +314,11 @@ func (k Keeper) beginUnbondingValidator(ctx sdk.Context, validator types.Validat
 	k.DeleteValidatorByPowerIndex(ctx, validator)
 
 	// sanity check
-	if validator.Status != sdkstaking.Bonded {
+	if validator.Status != stakingtypes.Bonded {
 		panic(fmt.Sprintf("should not already be unbonded or unbonding, validator: %v\n", validator))
 	}
 
-	validator = validator.UpdateStatus(sdkstaking.Unbonding)
+	validator = validator.UpdateStatus(stakingtypes.Unbonding)
 
 	// set the unbonding completion time and completion height appropriately
 	validator.UnbondingTime = ctx.BlockHeader().Time.Add(params.UnbondingTime)
@@ -346,7 +346,7 @@ func (k Keeper) beginUnbondingValidator(ctx sdk.Context, validator types.Validat
 
 // perform all the store operations for when a validator status becomes unbonded
 func (k Keeper) completeUnbondingValidator(ctx sdk.Context, validator types.Validator) types.Validator {
-	validator = validator.UpdateStatus(sdkstaking.Unbonded)
+	validator = validator.UpdateStatus(stakingtypes.Unbonded)
 	k.SetValidator(ctx, validator)
 
 	return validator

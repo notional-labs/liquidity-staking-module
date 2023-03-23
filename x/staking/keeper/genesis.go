@@ -6,8 +6,8 @@ import (
 	abci "github.com/cometbft/cometbft/abci/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkstaking "github.com/cosmos/cosmos-sdk/x/staking/types"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
+	stakingtypes "github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 )
 
 // InitGenesis sets the pool and parameters for the provided keeper.  For each
@@ -53,10 +53,10 @@ func (k Keeper) InitGenesis(ctx sdk.Context, data *types.GenesisState) (res []ab
 		}
 
 		switch validator.GetStatus() {
-		case sdkstaking.Bonded:
+		case stakingtypes.Bonded:
 			bondedTokens = bondedTokens.Add(validator.GetTokens())
 
-		case sdkstaking.Unbonding, sdkstaking.Unbonded:
+		case stakingtypes.Unbonding, stakingtypes.Unbonded:
 			notBondedTokens = notBondedTokens.Add(validator.GetTokens())
 
 		default:
