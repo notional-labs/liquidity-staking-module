@@ -21,6 +21,8 @@ import (
 //nolint:gosec
 const (
 	OpWeightMsgUnjail = "op_weight_msg_unjail"
+
+	DefaultWeightMsgUnjail = 100
 )
 
 // WeightedOperations returns all the operations from the module with their respective weights

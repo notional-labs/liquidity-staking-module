@@ -170,17 +170,17 @@ func UnmarshalValidator(cdc codec.BinaryCodec, value []byte) (v Validator, err e
 
 // IsBonded checks if the validator status equals Bonded
 func (v Validator) IsBonded() bool {
-	return v.GetStatus() == sdkstaking.Bonded
+	return v.GetStatus() == Bonded
 }
 
 // IsUnbonded checks if the validator status equals Unbonded
 func (v Validator) IsUnbonded() bool {
-	return v.GetStatus() == sdkstaking.Unbonded
+	return v.GetStatus() == Unbonded
 }
 
 // IsUnbonding checks if the validator status equals Unbonding
 func (v Validator) IsUnbonding() bool {
-	return v.GetStatus() == sdkstaking.Unbonding
+	return v.GetStatus() == Unbonding
 }
 
 // constant used in flags to indicate that description field should not be updated
