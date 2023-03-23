@@ -61,7 +61,7 @@ func (k Keeper) ExemptionFactor(ctx sdk.Context) (res sdk.Dec) {
 }
 
 // Get all parameters as types.Params
-func (k Keeper) GetParams(ctx sdk.Context) types.Params {
+func (k Keeper) GetParams(ctx sdk.Context) (params types.Params) {
 	return types.NewParams(
 		k.UnbondingTime(ctx),
 		k.MaxValidators(ctx),
