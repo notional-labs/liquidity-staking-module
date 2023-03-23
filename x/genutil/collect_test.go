@@ -60,8 +60,7 @@ func TestCollectTxsHandlesDirectories(t *testing.T) {
 	gdoc := tmtypes.GenesisDoc{AppState: []byte("{}")}
 	balItr := new(doNothingIterator)
 
-	dnc := &doNothingUnmarshalJSON{cdc}
-	if _, _, err := genutil.CollectTxs(dnc, txDecoder, "foo", testDir, gdoc, balItr); err != nil {
+	if _, _, err := genutil.CollectTxs(cdc, txDecoder, "foo", testDir, gdoc, balItr); err != nil {
 		t.Fatal(err)
 	}
 }
