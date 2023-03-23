@@ -28,6 +28,15 @@ func newMonikerValidator(t testing.TB, operator sdk.ValAddress, pubKey cryptotyp
 	return v
 }
 
+func (s *KeeperTestSuite) applyValidatorSetUpdates(ctx sdk.Context, keeper *stakingkeeper.Keeper, expectedUpdatesLen int) []abci.ValidatorUpdate {
+	updates, err := keeper.ApplyAndReturnValidatorSetUpdates(ctx)
+	s.Require().NoError(err)
+	if expectedUpdatesLen >= 0 {
+		s.Require().Equal(expectedUpdatesLen, len(updates), "%v", updates)
+	}
+	return updates
+}
+
 func bootstrapValidatorTest(t testing.TB, power int64, numAddrs int) (*simapp.SimApp, sdk.Context, []sdk.AccAddress, []sdk.ValAddress) {
 	_, app, ctx := createTestInput(&testing.T{})
 
