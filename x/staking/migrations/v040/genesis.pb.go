@@ -10,8 +10,9 @@ import (
 	math "math"
 	math_bits "math/bits"
 
-	proto "github.com/cosmos/cosmos-proto"
-	_ "github.com/cosmos/cosmos-proto/rapidproto"
+	"google.golang.org/protobuf/proto"
+
+	_ "github.com/cosmos/cosmos-proto"
 	github_com_cosmos_cosmos_sdk_types "github.com/cosmos/cosmos-sdk/types"
 )
 
