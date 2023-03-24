@@ -1,6 +1,6 @@
 // Package v040 is taken from:
 // https://github.com/cosmos/cosmos-sdk/blob/v0.40.1/x/staking/types/staking.pb.go
-//nolint
+// nolint
 package v040
 
 import (
@@ -15,15 +15,16 @@ import (
 	strings "strings"
 	time "time"
 
+	"google.golang.org/protobuf/proto"
+
 	types "github.com/cometbft/cometbft/proto/tendermint/types"
+	github_com_gogo_protobuf_proto "github.com/cosmos/cosmos-proto"
+	github_com_gogo_protobuf_types "github.com/cosmos/cosmos-proto"
+	_ "github.com/cosmos/cosmos-proto/rapidproto"
+	github_com_gogo_protobuf_protoc_gen_gogo_descriptor "github.com/cosmos/cosmos-proto/rapidproto"
 	types1 "github.com/cosmos/cosmos-sdk/codec/types"
 	github_com_cosmos_cosmos_sdk_types "github.com/cosmos/cosmos-sdk/types"
 	types2 "github.com/cosmos/cosmos-sdk/types"
-	_ "github.com/gogo/protobuf/gogoproto"
-	github_com_gogo_protobuf_proto "github.com/gogo/protobuf/proto"
-	proto "github.com/gogo/protobuf/proto"
-	github_com_gogo_protobuf_protoc_gen_gogo_descriptor "github.com/gogo/protobuf/protoc-gen-gogo/descriptor"
-	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	_ "github.com/golang/protobuf/ptypes/duration"
 	_ "github.com/golang/protobuf/ptypes/timestamp"
 	_ "github.com/regen-network/cosmos-proto"

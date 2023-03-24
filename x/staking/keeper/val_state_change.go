@@ -6,7 +6,7 @@ import (
 	"sort"
 
 	abci "github.com/cometbft/cometbft/abci/types"
-	gogotypes "github.com/gogo/protobuf/types"
+	gogotypes "github.com/cosmos/cosmos-proto"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/types"

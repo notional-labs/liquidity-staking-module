@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	tmcli "github.com/cometbft/cometbft/libs/cli"
-	"github.com/gogo/protobuf/proto"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -13,6 +12,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/iqlusioninc/liquidity-staking-module/testutil/network"
 	"github.com/iqlusioninc/liquidity-staking-module/x/slashing/client/cli"
+	"google.golang.org/protobuf/proto"
 )
 
 type IntegrationTestSuite struct {

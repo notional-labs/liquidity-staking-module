@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	errorsmod "cosmossdk.io/errors"
+	gogotypes "github.com/cosmos/cosmos-proto"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	gogotypes "github.com/gogo/protobuf/types"
 
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 )

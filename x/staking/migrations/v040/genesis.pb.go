@@ -1,7 +1,7 @@
 // Package v040 is taken from:
 // https://github.com/cosmos/cosmos-sdk/blob/v0.40.1/x/staking/types/genesis.pb.go
 // by copy-pasted only the relevants parts for Genesis.
-//nolint
+// nolint
 package v040
 
 import (
@@ -10,9 +10,9 @@ import (
 	math "math"
 	math_bits "math/bits"
 
+	proto "github.com/cosmos/cosmos-proto"
+	_ "github.com/cosmos/cosmos-proto/rapidproto"
 	github_com_cosmos_cosmos_sdk_types "github.com/cosmos/cosmos-sdk/types"
-	_ "github.com/gogo/protobuf/gogoproto"
-	proto "github.com/gogo/protobuf/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.

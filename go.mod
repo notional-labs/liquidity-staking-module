@@ -4,16 +4,15 @@ go 1.19
 
 require (
 	cosmossdk.io/errors v1.0.0-beta.7
-	cosmossdk.io/math v1.0.0-rc.0
+	cosmossdk.io/math v1.0.0
 	cosmossdk.io/simapp v0.0.0-20230320103358-f4a6feb9d4ee
 	github.com/armon/go-metrics v0.4.1
 	github.com/cometbft/cometbft v0.37.0
 	github.com/cometbft/cometbft-db v0.7.0
 	github.com/cosmos/cosmos-proto v1.0.0-beta.3
-	github.com/cosmos/cosmos-sdk v0.47.0
+	github.com/cosmos/cosmos-sdk v0.47.1
 	github.com/cosmos/go-bip39 v1.0.0
 	github.com/cosmos/gogoproto v1.4.6
-	github.com/gogo/protobuf v1.3.2
 	github.com/golang/mock v1.6.0
 	github.com/golang/protobuf v1.5.3
 	github.com/gorilla/mux v1.8.0
@@ -26,10 +25,16 @@ require (
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.15.0
 	github.com/stretchr/testify v1.8.2
+	go.starlark.net v0.0.0-20230302034142-4b1e35fe2254
 	google.golang.org/genproto v0.0.0-20230306155012-7f2fa6fef1f4
 	google.golang.org/grpc v1.53.0
 	google.golang.org/protobuf v1.30.0
 	sigs.k8s.io/yaml v1.3.0
+)
+
+require (
+	github.com/gogo/protobuf v1.3.2 // indirect
+	gotest.tools/v3 v3.4.0 // indirect
 )
 
 require (
@@ -155,7 +160,7 @@ require (
 	go.etcd.io/bbolt v1.3.7 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.7.0 // indirect
-	golang.org/x/exp v0.0.0-20230315142452-642cacee5cc0 // indirect
+	golang.org/x/exp v0.0.0-20230321023759-10a507213a29 // indirect
 	golang.org/x/net v0.8.0 // indirect
 	golang.org/x/oauth2 v0.5.0 // indirect
 	golang.org/x/sys v0.6.0 // indirect
@@ -176,8 +181,5 @@ replace (
 	github.com/99designs/keyring => github.com/cosmos/keyring v1.2.0
 	// securely enjoy gin
 	github.com/gin-gonic/gin => github.com/gin-gonic/gin v1.8.1
-	// use cosmos-flavored protocol buffers
-	github.com/gogo/protobuf => github.com/regen-network/protobuf v1.3.3-alpha.regen.1
-	// use informal tendermint
-	github.com/tendermint/tendermint => github.com/cometbft/cometbft v0.34.27
+
 )

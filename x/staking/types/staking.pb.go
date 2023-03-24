@@ -17,7 +17,7 @@ import (
 	proto "github.com/cosmos/gogoproto/proto"
 	github_com_cosmos_gogoproto_protoc_gen_gogo_descriptor "github.com/cosmos/gogoproto/protoc-gen-gogo/descriptor"
 	github_com_cosmos_gogoproto_types "github.com/cosmos/gogoproto/types"
-	_ "github.com/gogo/protobuf/types"
+	_ "github.com/cosmos/cosmos-proto"
 	io "io"
 	io_ioutil "io/ioutil"
 	math "math"
