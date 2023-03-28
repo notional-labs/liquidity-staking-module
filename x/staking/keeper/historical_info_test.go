@@ -5,7 +5,6 @@ import (
 
 	"cosmossdk.io/math"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
-	stakingtypes "github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 	"github.com/stretchr/testify/require"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"

@@ -14,7 +14,6 @@ import (
 	simapp "github.com/iqlusioninc/liquidity-staking-module/app"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
-	stakingtypes "github.com/iqlusioninc/liquidity-staking-module/x/staking/types"
 )
 
 func bootstrapGenesisTest(t *testing.T, numAddrs int) (*simapp.SimApp, sdk.Context, []sdk.AccAddress) {
