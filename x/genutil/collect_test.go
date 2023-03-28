@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"google.golang.org/protobuf/proto"
+	"github.com/cosmos/gogoproto/proto"
 
 	tmtypes "github.com/cometbft/cometbft/types"
 

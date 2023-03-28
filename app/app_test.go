@@ -2,6 +2,7 @@ package simapp
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"testing"
 
@@ -20,7 +21,7 @@ import (
 	mocks "github.com/cosmos/cosmos-sdk/testutil/mock"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/module"
+	sdkmodule "github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/auth"
 	"github.com/cosmos/cosmos-sdk/x/auth/vesting"
 	authzmodule "github.com/cosmos/cosmos-sdk/x/authz/module"
@@ -85,22 +86,25 @@ func TestRunMigrations(t *testing.T) {
 	bApp.SetCommitMultiStoreTracer(nil)
 	bApp.SetInterfaceRegistry(encCfg.InterfaceRegistry)
 	app.BaseApp = bApp
-	configurator := module.NewConfigurator(app.appCodec, bApp.MsgServiceRouter(), app.GRPCQueryRouter())
+	configurator := sdkmodule.NewConfigurator(app.appCodec, bApp.MsgServiceRouter(), app.GRPCQueryRouter())
 
 	// We register all modules on the Configurator, except x/bank. x/bank will
 	// serve as the test subject on which we run the migration tests.
 	//
 	// The loop below is the same as calling `RegisterServices` on
 	// ModuleManager, except that we skip x/bank.
-	for name, mod := range app.mm.Modules {
-		if name == banktypes.ModuleName {
-			continue
+	for _, module := range app.mm.Modules {
+		if module, ok := module.(sdkmodule.HasName); ok {
+			if module.Name() == banktypes.ModuleName {
+				fmt.Printf(module.Name(), module)
+				continue
+			}
 		}
-
-		if mod, ok := mod.(module.HasServices); ok {
-			mod.RegisterServices(configurator)
+		if module, ok := module.(sdkmodule.HasServices); ok {
+			module.RegisterServices(configurator)
 		}
 	}
+	app.mm.RegisterServices(configurator)
 
 	// Initialize the chain
 	app.InitChain(abci.RequestInitChain{})
@@ -174,7 +178,7 @@ func TestRunMigrations(t *testing.T) {
 			// their latest ConsensusVersion.
 			_, err = app.mm.RunMigrations(
 				app.NewContext(true, tmproto.Header{Height: app.LastBlockHeight()}), app.configurator,
-				module.VersionMap{
+				sdkmodule.VersionMap{
 					"bank":         1,
 					"auth":         auth.AppModule{}.ConsensusVersion(),
 					"authz":        authzmodule.AppModule{}.ConsensusVersion(),
@@ -227,7 +231,7 @@ func TestInitGenesisOnMigration(t *testing.T) {
 	// Run migrations only for "mock" module. We exclude it from
 	// the VersionMap to simulate upgrading with a new module.
 	_, err := app.mm.RunMigrations(ctx, app.configurator,
-		module.VersionMap{
+		sdkmodule.VersionMap{
 			"bank":         bank.AppModule{}.ConsensusVersion(),
 			"auth":         auth.AppModule{}.ConsensusVersion(),
 			"authz":        authzmodule.AppModule{}.ConsensusVersion(),
@@ -262,7 +266,7 @@ func TestUpgradeStateOnGenesis(t *testing.T) {
 	ctx := app.NewContext(false, tmproto.Header{})
 	vm := app.UpgradeKeeper.GetModuleVersionMap(ctx)
 	for v, i := range app.mm.Modules {
-		if i, ok := i.(module.HasConsensusVersion); ok {
+		if i, ok := i.(sdkmodule.HasConsensusVersion); ok {
 			require.Equal(t, vm[v], i.ConsensusVersion())
 		}
 	}

@@ -9,7 +9,6 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/bank/testutil"
-	sdkstaking "github.com/cosmos/cosmos-sdk/x/staking/types"
 	simapp "github.com/iqlusioninc/liquidity-staking-module/app"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/keeper"
 	"github.com/iqlusioninc/liquidity-staking-module/x/staking/teststaking"
@@ -460,8 +459,8 @@ func TestRedelegationMaxEntries(t *testing.T) {
 	validator2, issuedShares = validator2.AddTokensFromDel(valTokens)
 	require.Equal(t, valTokens, issuedShares.RoundInt())
 
-	validator2 = keeper.TestingUpdateValidator((*app.StakingKeeper), ctx, validator2, true)
-	require.Equal(t, sdkstaking.Bonded, validator2.Status)
+	validator2 = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator2, true)
+	require.Equal(t, types.Bonded, validator2.Status)
 
 	maxEntries := app.StakingKeeper.MaxEntries(ctx)
 
@@ -506,7 +505,7 @@ func TestExemptDelegationUndelegate(t *testing.T) {
 	app.StakingKeeper.SetValidator(ctx, validator)
 
 	// set exemption factor
-	params := app.StakingKeeper.GetParams(ctx)
+	params := app.StakingKeeper.GetAllParams(ctx)
 	params.ExemptionFactor = sdk.NewDec(1)
 	app.StakingKeeper.SetParams(ctx, params)
 
@@ -585,7 +584,7 @@ func TestExemptDelegationRedelegate(t *testing.T) {
 	app.StakingKeeper.SetValidator(ctx, validator2)
 
 	// set exemption factor
-	params := app.StakingKeeper.GetParams(ctx)
+	params := app.StakingKeeper.GetAllParams(ctx)
 	params.ExemptionFactor = sdk.NewDec(1)
 	app.StakingKeeper.SetParams(ctx, params)
 

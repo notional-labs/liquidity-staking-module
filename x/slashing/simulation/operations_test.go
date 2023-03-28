@@ -21,6 +21,7 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	minttypes "github.com/cosmos/cosmos-sdk/x/mint/types"
 	simapp "github.com/iqlusioninc/liquidity-staking-module/app"
+	simappparams "github.com/iqlusioninc/liquidity-staking-module/app/params"
 	distrtypes "github.com/iqlusioninc/liquidity-staking-module/x/distribution/types"
 	"github.com/iqlusioninc/liquidity-staking-module/x/slashing/simulation"
 	"github.com/iqlusioninc/liquidity-staking-module/x/slashing/types"
