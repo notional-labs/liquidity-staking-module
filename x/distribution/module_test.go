@@ -27,7 +27,6 @@ func TestItCreatesModuleAccountOnInitBlock(t *testing.T) {
 	app.InitChain(
 		abcitypes.RequestInitChain{
 			AppStateBytes: stateBytes,
-			ChainId:       "test-chain-id",
 		},
 	)
 
