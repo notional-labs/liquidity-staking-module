@@ -1,5 +1,5 @@
 syntax = "proto3";
-package liquidstaking.distribution.v1beta1;
+package distribution.v1beta1;
 
 option go_package            = "github.com/iqlusioninc/liquidity-staking-module/x/distribution/types";
 option (gogoproto.equal_all) = true;
